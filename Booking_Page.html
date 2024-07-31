@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<title>Booking Page</title>
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<script src="JavaScript/Form_Validation.js"></script>
+<link href="CSS/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="CSS/fonts.css" rel="stylesheet" type="text/css" media="all" />
+
+<body>
+<div id="header-wrapper">
+    <div id="header" class="container">
+        <div id="logo">
+            <span><a href="index.html"><img src="images/LowlandLodges.png" width="200" height="200" alt="Logo"></a></span>
+            <h1><a href="index.html" id="LL">Kerfeulest</a></h1>
+        </div>  
+        <div id="menu">
+            <div class="topnav" id="myTopnav">
+  <ul><li class="active"><a href="index.html" accesskey="1">Home</a></li></ul>
+  <div class="dropdown">
+<a href="Room_Types.html" class="underline">Les différents gîtes</a>
+    <div class="dropdown-content">
+      <a href="Room_Types.html#1RL" class="underline">Le Petit</a><br>
+      <a href="Room_Types.html#2RL" class="underline">Le Moyen</a><br>
+      <a href="Room_Types.html#STU" class="underline">Le Grand </a><br>
+    </div></div>
+  <ul><li class="hover"><a href="Booking_Page.html" title="">Réservé</a></li>
+  <li class="hover"><a href="About_Us.html" title="">A propos de nous</a></li></ul>
+  <div class="dropdown">
+<a href="Things_To_Do.html" class="underline">Les activités dans la region</a>
+    <div class="dropdown-content">
+      <a href="Things_To_Do.html#FWS" class="underline">Fishing & Watersports</a><br>
+      <a href="Things_To_Do.html#HKT" class="underline">Hiking & Trails</a><br>
+      <a href="Things_To_Do.html#ADV" class="underline">Adventure Park</a><br>
+      <a href="Things_To_Do.html#WNA" class="underline">Winter Activities</a><br>
+    </div></div>
+            </div>
+        </div>
+</div>
+	<div class="wrapper">
+	<div  id="banner" class="container">
+		<div id="welcome" class="container">
+    	
+<div class="title">
+	  <h2>Booking Page</h2>
+	<br>
+	<p>We're absolutely thrilled that you've decided to stay with us.<br>
+		We cant wait to show you what makes our Lodges so well reviewed!</p>
+	<br>
+	<hr>
+		</div>
+		 <form id="BookingForm" method="post" action="Form_Submitted.html" name="form1" onSubmit="ValidateFname()">
+			 <label for="Title">Title</label>
+			 <select class="input" id="Title" name="Title">
+    <option value="Mr">Mr</option>
+    <option value="Mrs">Mrs</option>
+    <option value="Ms">Ms</option>
+  </select>
+  <label for="fname">First Name</label>
+  <input class="input" type="text" id="fname" placeholder="First Name" onblur="validateFname()">
+
+  <label for="lname">Last Name</label>
+  <input class="input" type="text" id="lname" placeholder="Last Name" onblur="validateLname()">
+
+<label for="email">Enter your email:</label>
+<input class="input" type="text" id="email" placeholder="Email Address" onBlur="validEmail()">
+			 
+<label for="PhNumber">Phone Number</label>
+<input class="input" type="number" id="PhNumber" placeholder="Contact Number">
+			 
+<label for="RoomType">Room Type</label>
+			 <select class="input" id="RoomType" name="Room Type" onMouseLeave="updateCost()">
+    <option value="1BDU">1 Bedroom Unit</option>
+    <option value="2BDU">2 Bedroom Unit</option>
+    <option value="Studio">Studio</option>
+				 </select>
+			 <label for="NumOfRoom">Number of Rooms</label>
+			 <select class="input" id="NumOfRoom" name="NumOfRoom" onMouseLeave="updateCost()">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+				 </select>
+			 <label for="NumOfAdults">Number of Adults</label>
+			 <select  class="input" id="NumOfAdults" name="NumOfAdults" onMouseLeave="updateCost()">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+				 </select>
+			 <label for="NumOfChildren">Number of Children</label>
+			 <select id="NumOfChildren" name="NumOfChildren" onMouseLeave="updateCost()">
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+				 </select>
+			<label>Start Date</label>
+			 <input class="input" type="date" id="SDate" name="SDate" onBlur="TimeUnhide()">
+			 <label for="EDate">End Date</label>
+			 <input class="input" type="date" id="EDate" name="EDate" onBlur="TimeUnhide()">
+			 <label id="ATime" class="hidden">Arrival Time</label>
+			 <input class="hidden" type="time" name="Time" id="STime">
+			 <input type="checkbox" id="breakfast" name="breakfast" value="breakfast" onClick="updateCost()"><label for="breakfast"> Breakfast included?</label><br><br>
+			<label for="subT">Subtotal</label><input class="input" type="text" id="subT" name="Subtotal" placeholder="$0.00" readonly>
+	<div class="btn-group" style="width:100%">
+			<input class="button" type="submit" value="Confirm Booking">
+			<input class="button" type="reset" value="Reset Form">
+	</div>
+
+</form>
+	</div>
+		</div>
+</div>
+	</div>
+	<div id="footer"><!-- The footer contains our address, Ph number and Email Address.  -->
+	<div class="container">
+		<div class="fbox1">
+			<span>2 Kerfeulest
+			<br />29720 Plonéour-Lanvern</span>
+		</div>
+		<div class="fbox1">
+			<span>
+				Phone: +3307 81 33 81 71
+			</span>
+		</div>
+		<div class="fbox1">
+			<span>email@kerfeulest.com</span>
+		</div>
+	</div>
+</div>
+<div id="EndPage">
+	<p>Kerfeulest. All rights reserved. | All Photos credited in sources file | Website by Robin DUSSOURD.</p>
+</div>
+</body>
+</html>
