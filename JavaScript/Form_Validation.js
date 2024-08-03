@@ -1,159 +1,136 @@
-/*
-This is the javascript that validates the booking page fields and also calculates the total price of the stay.
-*/
-const oneRoom = 25;
-const twoRoom = 50;
-const studioRoom = 100;
-const breakF = 10;
+// Tarifs par période
+const rates = {
+    lowSeason: 250,    // Décembre à Février
+    midSeason: 270,    // Mars à Mai
+    highSeason: 280,   // Juin à Août
+    fallSeason: 260    // Septembre à Novembre
+};
 
-//This function calculates the total cost of all the options
-//that are available on the form. 
+// Fonction pour déterminer le tarif par nuit en fonction du mois de la date d'arrivée
+function getPricePerNight(SDate) {
+    const date = new Date(SDate);
+    const month = date.getMonth() + 1; // Les mois sont indexés à partir de 0
+
+    if (month >= 12 || month <= 2) {
+        return rates.lowSeason; // Période 1 : Décembre à Février
+    } else if (month >= 3 && month <= 5) {
+        return rates.midSeason; // Période 2 : Mars à Mai
+    } else if (month >= 6 && month <= 8) {
+        return rates.highSeason; // Période 3 : Juin à Août
+    } else {
+        return rates.fallSeason; // Période 4 : Septembre à Novembre
+    }
+}
+
+// Cette fonction calcule le coût total en fonction des options sélectionnées
 function updateCost() {
-	var subTotal = 0;
-	var breakCost = 0;
-	var roomType = document.forms["form1"]["RoomType"].value;
-	var NumOfRoom = document.forms["form1"]["NumOfRoom"].value;
-	var breakfast = document.getElementById("breakfast").checked;
-	var numAdult = parseInt(document.forms["form1"]["NumOfAdults"].value);
-	var numChild = parseInt(document.forms["form1"]["NumOfChildren"].value);
-	
-	var numStay = numAdult + numChild;
-	var Rtype = 0;
-	if(roomType == "1BDU"){
-		subTotal = oneRoom * NumOfRoom;
-		Rtype = 25;
-	}
-	else if(roomType == "2BDU"){
-		subTotal = twoRoom * NumOfRoom;
-		Rtype = 50;
-	}
-	else if(roomType == "Studio"){
-		subTotal = studioRoom * NumOfRoom;
-		Rtype = 100;
-	}
-	
-	var SDate = document.getElementById('SDate').value;
-	var EDate = document.getElementById('EDate').value;
-	var diffDays;
-	if(DateCheck(SDate,EDate)){
-	var SParsed = Date.parse(SDate)
-	var EParsed = Date.parse(EDate)
-	const diffTime = Math.abs(SParsed-EParsed);
-	diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-	subTotal = subTotal + (diffDays * Rtype);
-	}
-	if(breakfast){
-		breakCost = (breakF * numStay) * diffDays;
-		subTotal = subTotal + breakCost;
-		
-	}
-	document.getElementById("subT").value = "$" + subTotal;
-	
+    let subTotal = 0;
+    const SDate = document.getElementById('SDate').value;
+    const EDate = document.getElementById('EDate').value;
+
+    if (DateCheck(SDate, EDate)) {
+        const pricePerNight = getPricePerNight(SDate);
+        const SParsed = Date.parse(SDate);
+        const EParsed = Date.parse(EDate);
+
+        const diffTime = Math.abs(EParsed - SParsed);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        subTotal = pricePerNight * diffDays;
+    }
+
+    document.getElementById("subT").value = subTotal + "€" ;
 }
-//This function validates the First name field by ensuring it isn't left blank.
+
+// Cette fonction vérifie la validité des dates de début et de fin
+function DateCheck(SDate, EDate) {
+    const today = new Date();
+    const date = today.getDate();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+    
+    const todayStr = `${year}-${month < 10 ? '0' + month : month}-${date < 10 ? '0' + date : date}`;
+
+    return (SDate > todayStr && EDate > SDate);
+}
+
+// Cette fonction rend visible les champs de temps en fonction de la validité des dates, et met à jour le coût
+function TimeUnhide() {
+    const SDate = document.getElementById('SDate').value;
+    const EDate = document.getElementById('EDate').value;
+    const ValidDate = DateCheck(SDate, EDate);
+
+    if (ValidDate) {
+        document.getElementById('ATime').classList.remove('hidden');
+        document.getElementById('STime').classList.remove('hidden');    
+        document.getElementById('STime').classList.add('input');    
+        removeDisplayError(document.form1.SDate);
+        removeDisplayError(document.form1.EDate);
+        updateCost();
+    } else {
+        document.getElementById('ATime').classList.add('hidden');
+        document.getElementById("STime").classList.add("hidden");
+        document.getElementById("STime").classList.remove("input");    
+        const msg = "Please check Start and End date";
+        displayError(document.form1.EDate, msg);
+        displayError(document.form1.SDate, msg);
+    }
+}
+
+// Validation du prénom
 function validateFname() {
-		var fname = document.forms["form1"]["fname"].value;
-		if (fname == "" ) {			
-				var msg = "Field can't be left blank"
-				displayError(document.form1.fname, msg);
-				return false;
-		}
-		else{
-			removeDisplayError();
-			
-		}
+    const fname = document.forms["form1"]["fname"].value;
+    if (fname === "" ) {            
+        const msg = "Field can't be left blank";
+        displayError(document.form1.fname, msg);
+        return false;
+    } else {
+        removeDisplayError();
+    }
 }
-//This function validates the Last name field by ensuring it isn't left blank.
+
+// Validation du nom de famille
 function validateLname() {
-		var lname = document.forms["form1"]["lname"].value;
-		if (lname == "" ) {
-			var msg = "Field can't be left blank"
-			displayError(document.form1.lname, msg);
-			return false;
-		}
-		else{
-			removeDisplayError();
-			
-		}
+    const lname = document.forms["form1"]["lname"].value;
+    if (lname === "" ) {
+        const msg = "Field can't be left blank";
+        displayError(document.form1.lname, msg);
+        return false;
+    } else {
+        removeDisplayError();
+    }
 }
-//This function checks the start and end date to ensure it complies with a number of checks, such as if the start or end date is before todays' date
-//or if it has been left blank.
-function DateCheck(SDate,EDate){
-	var today = new Date();
-    var date = today.getDate();
-    var month = today.getMonth() + 1;
-    var year = today.getFullYear();
-	
-	if(date < 10){
-		date = '0' + date;
-	}
-	if(month < 10){
-		month = '0' + month;
-	}
-	
-	today = year + '-' + month + '-' + date;
-	if(!SDate == "" && !EDate == "" && SDate > today && SDate < EDate && EDate != SDate && EDate != today){
-		return true;
-	}
-	else{
-		return false;
-	}	
+
+// Validation de l'email
+function validEmail() {
+    const email_regexp = /^\w+@[a-z]+(\.[a-z]+)+$/;
+    const email = document.forms["form1"]["email"];
+    const valid = email_regexp.test(email.value);
+    if (!valid) {
+        displayError(email, "Email must be correct as it will be used to send booking confirmation");
+        return false;
+    } else {
+        removeDisplayError();
+        return true;
+    }
 }
-//The time unhide function incorporates the ValidDate Function to determine whether the time should be made visable.
-//It does this by passing the start and end date values and - depending on if the function returns 'true' - makes the time
-//visible to the user. Also calls the updateCost() function if valid start and end date is entered
-function TimeUnhide(){
-	var SDate = document.getElementById('SDate').value;
-	var EDate = document.getElementById('EDate').value;
-	var ValidDate = DateCheck(SDate,EDate);
-	if(ValidDate){
-	document.getElementById('ATime').classList.remove('hidden');
-	document.getElementById('STime').classList.remove('hidden');	
-	document.getElementById('STime').classList.add('input');	
-	removeDisplayError(document.form1.SDate);
-	removeDisplayError(document.form1.EDate);
-	updateCost();
-	}
-	else if(!ValidDate){
-	document.getElementById('ATime').classList.add('hidden');
-	document.getElementById("STime").classList.add("hidden");
-	document.getElementById("STime").classList.remove("input");	
-	var msg = "Please check Start and End date"
-	displayError(document.form1.EDate, msg);
-	displayError(document.form1.SDate, msg);
-	}
+
+// Suppression de l'affichage des erreurs
+function removeDisplayError() {
+    const errorElements = document.querySelectorAll("#error");
+    errorElements.forEach(element => element.remove());
 }
-//This function uses regex expressions to test if the user entered a valid email. It also displays a message 
-//as soon as the user starts typing as per assignment request.
-function validEmail(){
-	var email_regexp = /^\w+@[a-z]+(\.[a-z]+)+$/;
-	var email = document.forms["form1"]["email"];
-	var valid = email_regexp.test(email);
-	if (!valid)
-	{
-		displayError(email, "Email must be correct as it will be used to send booking confirmation");
-		return false;
-	} 
-	else {
-		removeDisplayError();
-		return true;
-	}
-}
-//This function just removes any error message with the tag 'error', which solves the duplicate
-//message problem.
-function removeDisplayError(){
-		$("#error").remove();
-}
-//This function produces an error message and highlights the relevent field border red.
-function displayError(element, msg){
-		$("#error").remove();
-		var msgElement=document.createElement("span");
-		msgElement.setAttribute("id","error");
-		msgElement.textContent=msg;
-		if(element != document.forms["form1"]["email"]){
-			element.style.border="solid 1px red";
-		}
-		msgElement.style.color="red";
-		msgElement.style.float="right";
-		element.parentNode.insertBefore(msgElement, element.nextSibling);	
+
+// Affichage des erreurs
+function displayError(element, msg) {
+    removeDisplayError();
+    const msgElement = document.createElement("span");
+    msgElement.setAttribute("id", "error");
+    msgElement.textContent = msg;
+    if (element !== document.forms["form1"]["email"]) {
+        element.style.border = "solid 1px red";
+    }
+    msgElement.style.color = "red";
+    msgElement.style.float = "right";
+    element.parentNode.insertBefore(msgElement, element.nextSibling);    
 }

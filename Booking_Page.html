@@ -48,39 +48,38 @@
 		<div id="welcome" class="container">
     	
 <div class="title">
-	  <h2>Booking Page</h2>
+	  <h2>Page de Réservation</h2>
 	<br>
-	<p>We're absolutely thrilled that you've decided to stay with us.<br>
-		We cant wait to show you what makes our Lodges so well reviewed!</p>
+	<p>Pour l'instant ce formulaire n'envoi pas la réservation du client au proprio .<br>
+		Donc si vous voulez réserver veuillez envoyer un mail ou téléphoner directement au propriétaire.</p>
 	<br>
 	<hr>
 		</div>
 		 <form id="BookingForm" method="post" action="Form_Submitted.html" name="form1" onSubmit="ValidateFname()">
-			 <label for="Title">Title</label>
+			 <label for="Title"></label>
 			 <select class="input" id="Title" name="Title">
-    <option value="Mr">Mr</option>
-    <option value="Mrs">Mrs</option>
-    <option value="Ms">Ms</option>
+    <option value="Mr">Monsieur</option>
+    <option value="Mrs">Madame</option>
   </select>
-  <label for="fname">First Name</label>
-  <input class="input" type="text" id="fname" placeholder="First Name" onblur="validateFname()">
+  <label for="fname">Prénom</label>
+  <input class="input" type="text" id="fname" placeholder="Prénom" onblur="validateFname()">
 
-  <label for="lname">Last Name</label>
-  <input class="input" type="text" id="lname" placeholder="Last Name" onblur="validateLname()">
+  <label for="lname">Nom</label>
+  <input class="input" type="text" id="lname" placeholder="Nom" onblur="validateLname()">
 
-<label for="email">Enter your email:</label>
-<input class="input" type="text" id="email" placeholder="Email Address" onBlur="validEmail()">
+<label for="email">Votre email:</label>
+<input class="input" type="text" id="email" placeholder="Email" onBlur="validEmail()">
 			 
-<label for="PhNumber">Phone Number</label>
-<input class="input" type="number" id="PhNumber" placeholder="Contact Number">
+<label for="PhNumber">Numéros de Téléphone</label>
+<input class="input" type="number" id="PhNumber" placeholder="Numéros de Téléphone">
 			 
-<label for="RoomType">Room Type</label>
+<label for="RoomType">Votre gîte</label>
 			 <select class="input" id="RoomType" name="Room Type" onMouseLeave="updateCost()">
-    <option value="1BDU">Le petit gîte (3 pers.)</option>
-    <option value="2BDU">Le moyen gîte (4 pers.)</option>
-    <option value="Studio">Le grand gîte (6 pers.)</option>
+    <option value="3PG">Le petit gîte (3 pers.)</option>
+    <option value="4MG">Le moyen gîte (4 pers.)</option>
+    <option value="6GG">Le grand gîte (6 pers.)</option>
 				 </select>
-			 <label for="NumOfAdults">Number of Adults</label>
+			 <label for="NumOfAdults">Nombre d'Adultes</label>
 			 <select  class="input" id="NumOfAdults" name="NumOfAdults" onMouseLeave="updateCost()">
     <option value="1">1</option>
     <option value="2">2</option>
@@ -89,7 +88,7 @@
     <option value="5">5</option>
 	<option value="5">6</option>
 				 </select>
-			 <label for="NumOfChildren">Number of Children</label>
+			 <label for="NumOfChildren">Nombre d'Enfant </label>
 			 <select id="NumOfChildren" name="NumOfChildren" onMouseLeave="updateCost()">
     <option value="0">0</option>
     <option value="1">1</option>
@@ -98,17 +97,16 @@
     <option value="4">4</option>
     <option value="5">5</option>
 				 </select>
-			<label>Start Date</label>
+			<label>Date de Début du Séjour</label>
 			 <input class="input" type="date" id="SDate" name="SDate" onBlur="TimeUnhide()">
-			 <label for="EDate">End Date</label>
+			 <label for="EDate">Date de Fin du Séjour</label>
 			 <input class="input" type="date" id="EDate" name="EDate" onBlur="TimeUnhide()">
-			 <label id="ATime" class="hidden">Arrival Time</label>
+			 <label id="ATime" class="hidden">Heure d'Arrivée</label>
 			 <input class="hidden" type="time" name="Time" id="STime">
-			 <input type="checkbox" id="breakfast" name="breakfast" value="breakfast" onClick="updateCost()"><label for="breakfast"> Breakfast included?</label><br><br>
-			<label for="subT">Subtotal</label><input class="input" type="text" id="subT" name="Subtotal" placeholder="$0.00" readonly>
+			<label for="subT">Total</label><input class="input" type="text" id="subT" name="Subtotal" placeholder="0 €" readonly>
 	<div class="btn-group" style="width:100%">
-			<input class="button" type="submit" value="Confirm Booking">
-			<input class="button" type="reset" value="Reset Form">
+			<input class="button" type="submit" value="Confirmer la réservation">
+			<input class="button" type="reset" value="Remettre à 0 le formulaire">
 	</div>
 
 </form>
